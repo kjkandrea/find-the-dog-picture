@@ -2,16 +2,20 @@ type ResourceURL = string;
 
 interface Quiz {
   pictures: ResourceURL[];
+  id: number;
 }
 
-interface GetPictureQuizzesResponse {
-  quiz: Quiz[];
+interface GetPictureQuizResponse {
+  quiz: Quiz;
 }
 
 export class PictureQuiz {
-  public getPictureQuizzes(): GetPictureQuizzesResponse {
+  public getPictureQuiz(): GetPictureQuizResponse {
     return {
-      quiz: [],
+      quiz: {
+        pictures: ["url"],
+        id: 1,
+      },
     };
   }
 }
