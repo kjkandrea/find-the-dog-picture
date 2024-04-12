@@ -1,21 +1,38 @@
 type ResourceURL = string;
+type UniqueId = number;
 
-interface Quiz {
+export interface Quiz {
   pictures: ResourceURL[];
-  id: number;
+  id: UniqueId;
 }
 
-interface GetPictureQuizResponse {
+export interface GetPictureQuizResponse {
   quiz: Quiz;
 }
 
-export class PictureQuiz {
-  public getPictureQuiz(): GetPictureQuizResponse {
-    return {
+class PictureQuiz {
+  public getPictureQuiz(): Promise<GetPictureQuizResponse> {
+    return this.fakeResponseDelay({
       quiz: {
         pictures: ["url"],
-        id: 1,
+        id: this.generateUniqueId(),
       },
-    };
+    });
+  }
+
+  private latestId: UniqueId = 0;
+  private generateUniqueId(): UniqueId {
+    this.latestId += 1;
+    return this.latestId;
+  }
+
+  private fakeResponseDelay<T>(responseBody: T): Promise<T> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(responseBody);
+      }, 200);
+    });
   }
 }
+
+export const pictureQuiz = new PictureQuiz();
