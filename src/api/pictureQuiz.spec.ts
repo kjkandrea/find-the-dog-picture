@@ -17,5 +17,18 @@ describe("pictureQuiz", () => {
 
       expect(quizIdSet.size).toBe(EXPECT_LENGTH);
     });
+
+    it("유효한 이미지 리소스 URL 을 포함한다.", async () => {
+      const {
+        quiz: { pictures },
+      } = await pictureQuiz.getPictureQuiz();
+
+      const image = new Image();
+      image.onload = () => {
+        expect(image.complete && image.naturalWidth > 0).toBeTruthy();
+      };
+
+      image.src = pictures.at(0)!;
+    });
   });
 });
