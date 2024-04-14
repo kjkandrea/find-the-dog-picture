@@ -1,4 +1,5 @@
 import { cats } from "./images/cats";
+import { dogs } from "./images/dogs";
 import { sampleSize } from "lodash-es";
 
 type ResourceURL = string;
@@ -23,7 +24,7 @@ class PictureQuiz {
     }
     return this.fakeResponseDelay({
       quiz: {
-        pictures: sampleSize(cats, pictureLength),
+        pictures: [...sampleSize(cats, pictureLength - 1), dogs[0]],
         id: this.generateUniqueId(),
       },
     });
