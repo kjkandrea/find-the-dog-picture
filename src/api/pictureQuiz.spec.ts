@@ -38,5 +38,9 @@ describe("pictureQuiz", () => {
 
       expect(pictures.length).toBe(4);
     });
+
+    it("요청 가능한 pictures 갯수는 2개 이상이다.", () => {
+      expect(() => pictureQuiz.getPictureQuiz(1)).toThrow();
+    });
   });
 });
