@@ -1,5 +1,5 @@
 import { pictureQuiz, Quiz } from "./pictureQuiz";
-import { countBy } from "lodash-es";
+import { countBy, uniq } from "lodash-es";
 
 describe("pictureQuiz", () => {
   describe("getPictureQuiz", () => {
@@ -55,6 +55,20 @@ describe("pictureQuiz", () => {
 
       expect(dog).toBe(1);
       expect(cat).toBe(3);
+    });
+
+    it("시드가 있으면 10번 까지 이전 요청과 다른 강아지 사진을 반환한다.", async () => {
+      const seed = 1;
+
+      const responses = await Promise.all(
+        Array.from({ length: 10 }, () => pictureQuiz.getPictureQuiz(2, seed)),
+      );
+
+      const dogPictures = responses.map(({ quiz }) =>
+        quiz.pictures.find((resourceURL) => resourceURL.includes("dog")),
+      );
+
+      expect(uniq(dogPictures).length).toBe(10);
     });
   });
 });

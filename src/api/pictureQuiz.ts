@@ -18,6 +18,7 @@ class PictureQuiz {
   public getPictureQuiz(
     // more than 1
     pictureLength: number = 4,
+    seed: number = 0,
   ): Promise<GetPictureQuizResponse> {
     if (1 >= pictureLength) {
       throw new Error("bad request: pictureLength must be more than 1");
