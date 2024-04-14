@@ -1,3 +1,5 @@
+import { cats } from "./images/cats";
+
 type ResourceURL = string;
 type UniqueId = number;
 
@@ -14,7 +16,7 @@ class PictureQuiz {
   public getPictureQuiz(): Promise<GetPictureQuizResponse> {
     return this.fakeResponseDelay({
       quiz: {
-        pictures: ["url"],
+        pictures: cats,
         id: this.generateUniqueId(),
       },
     });
