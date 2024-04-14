@@ -13,7 +13,9 @@ export interface GetPictureQuizResponse {
 }
 
 class PictureQuiz {
-  public getPictureQuiz(): Promise<GetPictureQuizResponse> {
+  public getPictureQuiz(
+    pictureLength: number = 4,
+  ): Promise<GetPictureQuizResponse> {
     return this.fakeResponseDelay({
       quiz: {
         pictures: cats,

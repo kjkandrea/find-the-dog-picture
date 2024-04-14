@@ -30,5 +30,13 @@ describe("pictureQuiz", () => {
 
       image.src = pictures.at(0)!;
     });
+
+    it("원하는 갯수 만큼의 pictures 를 반환 받는다.", async () => {
+      const {
+        quiz: { pictures },
+      } = await pictureQuiz.getPictureQuiz(4);
+
+      expect(pictures.length).toBe(4);
+    });
   });
 });
