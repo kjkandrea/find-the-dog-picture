@@ -1,4 +1,5 @@
 import { pictureQuiz, Quiz } from "./pictureQuiz";
+import { countBy } from "lodash-es";
 
 describe("pictureQuiz", () => {
   describe("getPictureQuiz", () => {
@@ -41,6 +42,19 @@ describe("pictureQuiz", () => {
 
     it("요청 가능한 pictures 갯수는 2개 이상이다.", () => {
       expect(() => pictureQuiz.getPictureQuiz(1)).toThrow();
+    });
+
+    it("pictures 는 하나의 강아지 사진을 포함과 고양이 사진들을 포함한다.", async () => {
+      const {
+        quiz: { pictures },
+      } = await pictureQuiz.getPictureQuiz(4);
+
+      const { dog, cat } = countBy(pictures, (pictureURL) =>
+        pictureURL.includes("dog") ? "dog" : "cat",
+      );
+
+      expect(dog).toBe(1);
+      expect(cat).toBe(3);
     });
   });
 });
