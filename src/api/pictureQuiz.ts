@@ -1,4 +1,5 @@
 import { cats } from "./images/cats";
+import { sampleSize } from "lodash-es";
 
 type ResourceURL = string;
 type UniqueId = number;
@@ -18,7 +19,7 @@ class PictureQuiz {
   ): Promise<GetPictureQuizResponse> {
     return this.fakeResponseDelay({
       quiz: {
-        pictures: cats,
+        pictures: sampleSize(cats, pictureLength),
         id: this.generateUniqueId(),
       },
     });
