@@ -44,7 +44,7 @@ describe("pictureQuiz", () => {
       expect(() => pictureQuiz.getPictureQuiz(1)).toThrow();
     });
 
-    it("pictures 는 하나의 강아지 사진을 포함과 고양이 사진들을 포함한다.", async () => {
+    it("pictures 는 하나의 강아지 사진을 포함하고 고양이 사진들을 포함한다.", async () => {
       const {
         quiz: { pictures },
       } = await pictureQuiz.getPictureQuiz(4);
