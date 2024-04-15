@@ -19,7 +19,7 @@ export interface PostPictureQuizResponse {
   correct: boolean;
 }
 
-class PictureQuiz {
+export class PictureQuiz {
   private correctIndexByQuizIdMap: Map<Quiz["id"], number> = new Map();
   private previousDogIndexesSetBySeed: Map<number, Set<number>> = new Map();
 
@@ -95,5 +95,3 @@ class PictureQuiz {
     return this.latestId;
   }
 }
-
-export const pictureQuiz = new PictureQuiz();

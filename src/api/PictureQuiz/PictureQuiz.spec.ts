@@ -1,7 +1,9 @@
-import { pictureQuiz, Quiz } from "./pictureQuiz";
+import { PictureQuiz, Quiz } from "./PictureQuiz";
 import { countBy, uniq } from "lodash-es";
 
-describe("pictureQuiz", () => {
+describe("PictureQuiz", () => {
+  const pictureQuiz = new PictureQuiz();
+
   beforeEach(() => {
     pictureQuiz.reset();
   });
