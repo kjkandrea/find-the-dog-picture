@@ -20,4 +20,10 @@ describe("pickRandomItem", () => {
 
     expect(pickRandomItem(array, excludeIndexesSet)).toBeUndefined();
   });
+
+  it("제외 인덱스 세트를 넘기지 않으면 무작위의 아이템을 리턴한다.", () => {
+    const array = [1, 2];
+
+    expect(pickRandomItem(array)).not.toBeUndefined();
+  });
 });
