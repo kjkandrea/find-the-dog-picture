@@ -10,12 +10,12 @@ type PictureQuizQueryResult = {
 export const usePictureQuizQuery = (squareMatrixWidth: number) => {
   const seed = Date.now();
 
-  return useQuery(["quiz"], () =>
-    pictureQuizApi.getPictureQuiz(squareMatrixWidth ** 2, seed).then(
-      ({ quiz }): PictureQuizQueryResult => ({
+  return useQuery<PictureQuizQueryResult>(["quiz"], () =>
+    pictureQuizApi
+      .getPictureQuiz(squareMatrixWidth ** 2, seed)
+      .then(({ quiz }) => ({
         grid: chunk(quiz.pictures, squareMatrixWidth),
         id: quiz.id,
-      }),
-    ),
+      })),
   );
 };

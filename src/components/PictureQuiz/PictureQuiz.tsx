@@ -3,7 +3,15 @@ import { usePictureQuizQuery } from "~/hooks";
 export const PictureQuiz = () => {
   const { data } = usePictureQuizQuery(2);
 
-  console.log(data);
+  if (!data) return null;
 
-  return <>PictureQuiz : {JSON.stringify(data)}</>;
+  return (
+    <div>
+      {data.grid.map((row) =>
+        row.map((imageURL) => (
+          <img key={imageURL} src={imageURL} alt="unknown image" />
+        )),
+      )}
+    </div>
+  );
 };
