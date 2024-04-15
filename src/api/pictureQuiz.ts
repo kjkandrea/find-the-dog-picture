@@ -15,8 +15,13 @@ export interface GetPictureQuizResponse {
   quiz: Quiz;
 }
 
+export interface PostPictureQuizResponse {
+  correct: boolean;
+}
+
 class PictureQuiz {
   private previousDogIndexesSetBySeed: Map<number, Set<number>> = new Map();
+
   public getPictureQuiz(
     // 2 이상
     pictureLength: number = 4,
@@ -44,12 +49,22 @@ class PictureQuiz {
 
     return this.fakeResponseDelay({
       quiz: {
+        // TODO: shuffle 보단 무작위 인덱스를 뽑아 정답을 기록해두고, 해당 인덱스에 강아지를 위치시키는게 성능 좋을듯
         pictures: shuffle([
           ...sampleSize(cats, pictureLength - 1),
           dogs[dogIndex],
         ]),
         id: this.generateUniqueId(),
       },
+    });
+  }
+
+  public postPictureQuiz(
+    quizId: UniqueId,
+    answer: number,
+  ): Promise<PostPictureQuizResponse> {
+    return this.fakeResponseDelay({
+      correct: true,
     });
   }
 
