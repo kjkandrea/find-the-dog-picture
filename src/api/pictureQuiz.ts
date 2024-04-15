@@ -1,6 +1,6 @@
 import { cats } from "./images/cats";
 import { dogs } from "./images/dogs";
-import { sampleSize } from "lodash-es";
+import { sampleSize, shuffle } from "lodash-es";
 import { pickRandomIndex } from "~/utils";
 
 type ResourceURL = string;
@@ -31,7 +31,7 @@ class PictureQuiz {
       this.previousDogIndexesSetBySeed.has(seed) &&
       this.previousDogIndexesSetBySeed.get(seed)!.size === 10;
 
-    if (!this.previousDogIndexesSetBySeed.has(seed) || hasMax) {
+    if (hasMax || !this.previousDogIndexesSetBySeed.has(seed)) {
       this.previousDogIndexesSetBySeed.set(seed, new Set());
     }
 
@@ -44,7 +44,10 @@ class PictureQuiz {
 
     return this.fakeResponseDelay({
       quiz: {
-        pictures: [...sampleSize(cats, pictureLength - 1), dogs[dogIndex]],
+        pictures: shuffle([
+          ...sampleSize(cats, pictureLength - 1),
+          dogs[dogIndex],
+        ]),
         id: this.generateUniqueId(),
       },
     });
