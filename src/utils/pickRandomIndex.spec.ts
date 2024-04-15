@@ -9,7 +9,6 @@ describe("pickRandomIndex", () => {
 
     for (let i = 0; i < 100; i++) {
       const result = pickRandomIndex(length, excludeIndexesSet);
-      console.log("result", result);
       expect(remainingIndexes.includes(result)).toBe(true);
       expect(excludeIndexes.includes(result)).toBe(false);
     }
