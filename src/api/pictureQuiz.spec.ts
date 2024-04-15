@@ -70,5 +70,22 @@ describe("pictureQuiz", () => {
 
       expect(uniq(dogPictures).length).toBe(10);
     });
+
+    it("강아지 사진은 무작위 순번에 위치한다.", async () => {
+      const EXPECT_CASE_COUNT = 2;
+      const seed = 1;
+
+      const responses = await Promise.all(
+        Array.from({ length: 100 }, () =>
+          pictureQuiz.getPictureQuiz(EXPECT_CASE_COUNT, seed),
+        ),
+      );
+
+      const dogPictureIndexes = responses.map(({ quiz }) =>
+        quiz.pictures.findIndex((resourceURL) => resourceURL.includes("dog")),
+      );
+
+      expect(uniq(dogPictureIndexes).length).toBe(EXPECT_CASE_COUNT);
+    });
   });
 });
