@@ -117,4 +117,8 @@ describe("pictureQuiz", () => {
       expect(correct).toBe(false);
     });
   });
+
+  it("생성되지 않은 퀴즈를 맞출 수 없다.", async () => {
+    expect(() => pictureQuiz.postPictureQuiz(1, 0)).toThrow();
+  });
 });
