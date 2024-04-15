@@ -88,4 +88,20 @@ describe("pictureQuiz", () => {
       expect(uniq(dogPictureIndexes).length).toBe(EXPECT_CASE_COUNT);
     });
   });
+
+  describe("postPictureQuiz", () => {
+    it("퀴즈에 대해, 올바른 강아지 사진의 순번을 도출하면 결과는 correct:true 이다.", async () => {
+      const { quiz } = await pictureQuiz.getPictureQuiz();
+
+      const correctAnswer = quiz.pictures.findIndex((picture) =>
+        picture.includes("dog"),
+      );
+
+      const { correct } = await pictureQuiz.postPictureQuiz(
+        quiz.id,
+        correctAnswer,
+      );
+      expect(correct).toBe(true);
+    });
+  });
 });
