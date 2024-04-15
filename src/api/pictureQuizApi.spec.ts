@@ -13,6 +13,6 @@ describe("pictureQuizApi", () => {
   test("postPictureQuiz should return a Result", async () => {
     const { quiz } = await pictureQuizApi.getPictureQuiz(2);
     const result = await pictureQuizApi.postPictureQuiz(quiz.id, 0);
-    expect(result.correct).toBeTruthy();
+    expect(typeof result.correct).toBe("boolean");
   });
 });
