@@ -102,5 +102,19 @@ describe("pictureQuiz", () => {
       );
       expect(correct).toBe(true);
     });
+
+    it("퀴즈에 대해, 잘못된 강아지 사진의 순번을 도출하면 결과는 correct:false 이다.", async () => {
+      const { quiz } = await pictureQuiz.getPictureQuiz();
+
+      const wrongAnswer = quiz.pictures.findIndex(
+        (picture) => !picture.includes("dog"),
+      );
+
+      const { correct } = await pictureQuiz.postPictureQuiz(
+        quiz.id,
+        wrongAnswer,
+      );
+      expect(correct).toBe(false);
+    });
   });
 });
