@@ -1,8 +1,8 @@
-import { pictureQuizApi } from "./pictureQuizApi";
+import { pictureQuizApi, pictureQuiz } from "./pictureQuizApi";
 
 describe("pictureQuizApi", () => {
   beforeEach(() => {
-    pictureQuizApi.reset();
+    pictureQuiz.reset();
   });
 
   test("getPictureQuiz should return a Quiz", async () => {

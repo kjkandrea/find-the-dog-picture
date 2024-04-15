@@ -8,10 +8,9 @@ interface PictureQuizApi {
   postPictureQuiz: (
     ...args: Parameters<PictureQuiz["postPictureQuiz"]>
   ) => Promise<ReturnType<PictureQuiz["postPictureQuiz"]>>;
-  reset: PictureQuiz["reset"];
 }
 
-const pictureQuiz = new PictureQuiz();
+export const pictureQuiz = new PictureQuiz();
 
 // singleton
 export const pictureQuizApi: PictureQuizApi = {
@@ -23,7 +22,6 @@ export const pictureQuizApi: PictureQuizApi = {
     pictureQuiz.postPictureQuiz.bind(pictureQuiz),
     fakeResponseDelay,
   ),
-  reset: pictureQuiz.reset.bind(pictureQuiz),
 };
 
 function fakeResponseDelay<ResponseBody>(
