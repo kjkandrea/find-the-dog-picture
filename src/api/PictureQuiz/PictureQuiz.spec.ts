@@ -1,5 +1,6 @@
 import { PictureQuiz, Quiz } from "./PictureQuiz";
 import { countBy, uniq } from "lodash-es";
+import { describe, beforeEach, it, expect } from "@jest/globals";
 
 describe("PictureQuiz", () => {
   const pictureQuiz = new PictureQuiz();
