@@ -2,6 +2,7 @@ export default {
   preset: "ts-jest",
   collectCoverage: true,
   coverageReporters: ["text", "text-summary"],
+  // no react function or class, react hooks
   collectCoverageFrom: ["src/**/*.ts", "!src/**/index.ts", "!src/**/*.d.ts"],
   testEnvironment: "jsdom",
   transform: {
