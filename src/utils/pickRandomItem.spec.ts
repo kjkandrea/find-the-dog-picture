@@ -8,10 +8,9 @@ describe("pickRandomItem", () => {
 
     for (let i = 0; i < 100; i++) {
       const result = pickRandomItem(array, excludeIndexesSet);
-      expect(result !== undefined && array.includes(result)).toBe(true);
-      expect(
-        result === undefined || excludeIndexes.includes(array.indexOf(result)),
-      ).toBe(false);
+      expect(result).not.toBeUndefined();
+      expect(array.includes(result!)).toBe(true);
+      expect(excludeIndexes.includes(array.indexOf(result!))).toBe(false);
     }
   });
 });
