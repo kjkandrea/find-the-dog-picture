@@ -2,6 +2,10 @@ import { pictureQuiz, Quiz } from "./pictureQuiz";
 import { countBy, uniq } from "lodash-es";
 
 describe("pictureQuiz", () => {
+  beforeEach(() => {
+    pictureQuiz.reset();
+  });
+
   describe("getPictureQuiz", () => {
     it("모든 퀴즈는 아이디를 지니며 중복되지 않는다.", async () => {
       const EXPECT_LENGTH = 3;
@@ -116,9 +120,19 @@ describe("pictureQuiz", () => {
       );
       expect(correct).toBe(false);
     });
+
+    it("생성되지 않은 퀴즈를 맞출 수 없다.", async () => {
+      expect(() => pictureQuiz.postPictureQuiz(1, 0)).toThrow();
+    });
   });
 
-  it("생성되지 않은 퀴즈를 맞출 수 없다.", async () => {
-    expect(() => pictureQuiz.postPictureQuiz(1, 0)).toThrow();
+  describe("reset", () => {
+    it("모든 문제 기록을 삭제한다.", async () => {
+      const { quiz } = await pictureQuiz.getPictureQuiz();
+
+      pictureQuiz.reset();
+
+      expect(() => pictureQuiz.postPictureQuiz(quiz.id, 0)).toThrow();
+    });
   });
 });

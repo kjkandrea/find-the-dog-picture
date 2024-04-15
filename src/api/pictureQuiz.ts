@@ -70,6 +70,11 @@ class PictureQuiz {
     quizId: UniqueId,
     answer: number,
   ): Promise<PostPictureQuizResponse> {
+    const notFound = !this.correctIndexByQuizIdMap.has(quizId);
+    if (notFound) {
+      throw new Error("bad request: quiz is not found");
+    }
+
     const correct = this.correctIndexByQuizIdMap.get(quizId) === answer;
 
     this.correctIndexByQuizIdMap.delete(quizId);
@@ -77,6 +82,11 @@ class PictureQuiz {
     return this.fakeResponseDelay({
       correct,
     });
+  }
+
+  public reset() {
+    this.correctIndexByQuizIdMap = new Map();
+    this.previousDogIndexesSetBySeed = new Map();
   }
 
   private latestId: UniqueId = 0;
