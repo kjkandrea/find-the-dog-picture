@@ -1,6 +1,6 @@
 import { cats } from "./images/cats";
 import { dogs } from "./images/dogs";
-import { sampleSize, shuffle } from "lodash-es";
+import { sampleSize, random } from "lodash-es";
 import { pickRandomIndex } from "~/utils";
 
 type ResourceURL = string;
@@ -20,6 +20,7 @@ export interface PostPictureQuizResponse {
 }
 
 class PictureQuiz {
+  private correctIndexByQuizIdMap: Map<Quiz["id"], number> = new Map();
   private previousDogIndexesSetBySeed: Map<number, Set<number>> = new Map();
 
   public getPictureQuiz(
@@ -41,20 +42,26 @@ class PictureQuiz {
     }
 
     const previousDogIndexesSet = this.previousDogIndexesSetBySeed.get(seed)!;
-    const dogIndex = pickRandomIndex(dogs.length, previousDogIndexesSet);
+    const dogId = pickRandomIndex(dogs.length, previousDogIndexesSet);
+    const dogPicture = dogs[dogId];
 
-    previousDogIndexesSet.add(dogIndex);
+    previousDogIndexesSet.add(dogId);
 
     this.previousDogIndexesSetBySeed.set(seed, previousDogIndexesSet);
 
+    const id = this.generateUniqueId();
+
+    const pictures = sampleSize(cats, pictureLength);
+    const lastIndex = pictures.length - 1;
+    const dogIndex = random(0, lastIndex);
+    pictures[dogIndex] = dogPicture;
+
+    this.correctIndexByQuizIdMap.set(id, dogIndex);
+
     return this.fakeResponseDelay({
       quiz: {
-        // TODO: shuffle 보단 무작위 인덱스를 뽑아 정답을 기록해두고, 해당 인덱스에 강아지를 위치시키는게 성능 좋을듯
-        pictures: shuffle([
-          ...sampleSize(cats, pictureLength - 1),
-          dogs[dogIndex],
-        ]),
-        id: this.generateUniqueId(),
+        pictures,
+        id,
       },
     });
   }
@@ -63,8 +70,12 @@ class PictureQuiz {
     quizId: UniqueId,
     answer: number,
   ): Promise<PostPictureQuizResponse> {
+    const correct = this.correctIndexByQuizIdMap.get(quizId) === answer;
+
+    this.correctIndexByQuizIdMap.delete(quizId);
+
     return this.fakeResponseDelay({
-      correct: true,
+      correct,
     });
   }
 
