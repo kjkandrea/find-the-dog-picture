@@ -11,4 +11,7 @@ export default {
       "<rootDir>/jest/assetTransformer.cjs",
   },
   transformIgnorePatterns: ["<rootDir>/node_modules/(?!lodash-es)"],
+  moduleNameMapper: {
+    "^~/(.*)$": "<rootDir>/src/$1",
+  },
 };
