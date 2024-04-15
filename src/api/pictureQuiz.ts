@@ -27,7 +27,7 @@ class PictureQuiz {
     // 2 이상
     pictureLength: number = 4,
     seed: number = 0,
-  ): Promise<GetPictureQuizResponse> {
+  ): GetPictureQuizResponse {
     if (1 >= pictureLength) {
       throw new Error("bad request: pictureLength must be more than 1");
     }
@@ -58,18 +58,18 @@ class PictureQuiz {
 
     this.correctIndexByQuizIdMap.set(id, dogIndex);
 
-    return this.fakeResponseDelay({
+    return {
       quiz: {
         pictures,
         id,
       },
-    });
+    };
   }
 
   public postPictureQuiz(
     quizId: UniqueId,
     answer: number,
-  ): Promise<PostPictureQuizResponse> {
+  ): PostPictureQuizResponse {
     const notFound = !this.correctIndexByQuizIdMap.has(quizId);
     if (notFound) {
       throw new Error("bad request: quiz is not found");
@@ -79,9 +79,9 @@ class PictureQuiz {
 
     this.correctIndexByQuizIdMap.delete(quizId);
 
-    return this.fakeResponseDelay({
+    return {
       correct,
-    });
+    };
   }
 
   public reset() {
@@ -93,14 +93,6 @@ class PictureQuiz {
   private generateUniqueId(): UniqueId {
     this.latestId += 1;
     return this.latestId;
-  }
-
-  private fakeResponseDelay<T>(responseBody: T): Promise<T> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(responseBody);
-      }, 200);
-    });
   }
 }
 
