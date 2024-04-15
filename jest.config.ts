@@ -2,7 +2,7 @@ export default {
   preset: "ts-jest",
   collectCoverage: true,
   coverageReporters: ["text", "text-summary"],
-  collectCoverageFrom: ["src/**/*.[jt]s?(x)"],
+  collectCoverageFrom: ["src/**/*.ts", "!src/**/index.ts", "!src/**/*.d.ts"],
   testEnvironment: "jsdom",
   transform: {
     "^.+\\.js$": "babel-jest",
