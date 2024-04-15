@@ -13,4 +13,11 @@ describe("pickRandomItem", () => {
       expect(excludeIndexes.includes(array.indexOf(result!))).toBe(false);
     }
   });
+
+  it("제외 인덱스 세트가 모든 인덱스를 포함하면 결과는 undefined 이다.", () => {
+    const array = [1];
+    const excludeIndexesSet = new Set([0]);
+
+    expect(pickRandomItem(array, excludeIndexesSet)).toBeUndefined();
+  });
 });
