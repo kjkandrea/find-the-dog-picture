@@ -22,6 +22,7 @@ export interface PostPictureQuizResponse {
 export class PictureQuiz {
   private correctIndexByQuizIdMap: Map<Quiz["id"], number> = new Map();
   private previousDogIndexesSetBySeed: Map<number, Set<number>> = new Map();
+  private latestId: UniqueId = 0;
 
   public getPictureQuiz(
     // 2 이상
@@ -87,9 +88,9 @@ export class PictureQuiz {
   public reset() {
     this.correctIndexByQuizIdMap = new Map();
     this.previousDogIndexesSetBySeed = new Map();
+    this.latestId = 0;
   }
 
-  private latestId: UniqueId = 0;
   private generateUniqueId(): UniqueId {
     this.latestId += 1;
     return this.latestId;
