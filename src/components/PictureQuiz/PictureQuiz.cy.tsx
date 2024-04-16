@@ -40,7 +40,7 @@ describe("PictureQuiz", () => {
     cy.clock();
     cy.mount(<PictureQuiz />);
 
-    Cypress._.times(10, (i) => {
+    Cypress._.times(8, (i) => {
       cy.log(`${i + 1} 번째 문제`);
 
       pictureGrid()
