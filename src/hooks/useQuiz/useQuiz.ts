@@ -48,7 +48,9 @@ export const useQuiz: UseQuiz = ({ onComplete }) => {
       );
 
       if (
+        // 준비된 모든 문제를 풀었으므로 종료
         !nextSquareMatrix ||
+        // 퀴즈 한도를 초과했으므로 종료
         currentTryCount.current >= businessLogic.maxTryCount
       ) {
         onComplete?.();
