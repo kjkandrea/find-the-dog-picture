@@ -1,2 +1,1 @@
-export * from "./usePictureQuizQuery";
-export * from "./useSubmitPictureQuizMutation";
+export * from "./useQuiz";

@@ -1,27 +1,22 @@
-import { usePictureQuizQuery, useSubmitPictureQuizMutation } from "~/hooks";
+import { useQuiz } from "~/hooks";
 import { palette } from "~/const";
 import styled from "@emotion/styled";
 
 export const PictureQuiz = () => {
-  const { data } = usePictureQuizQuery(2);
-  const { data: feedback, mutate } = useSubmitPictureQuizMutation();
+  const { quiz, solve, feedback, step } = useQuiz();
 
-  console.log(feedback);
-
-  if (!data) return null;
-
-  const handleClickAnswer = (index: number) => {
-    mutate({
-      quizId: data.id,
-      answer: index,
-    });
-  };
+  if (!quiz) return null;
 
   return (
     <Root>
-      {feedback?.correct ? "정답입니다!" : "오답입니다."}
-      <Grid>
-        {data.grid.map((row, i) => (
+      <QuizTitle>퀴즈 {step}</QuizTitle>
+      {feedback && (
+        <FeedbackTypography>
+          {feedback?.correct ? "정답입니다!" : "오답입니다."}
+        </FeedbackTypography>
+      )}
+      <Grid data-testid="picture-grid">
+        {quiz.grid.map((row, i) => (
           <Row key={i}>
             {row.map((imageURL, j) => {
               const uniqueIndex = i * row.length + j;
@@ -29,7 +24,7 @@ export const PictureQuiz = () => {
               return (
                 <Clickable
                   key={uniqueIndex}
-                  onClick={() => handleClickAnswer(uniqueIndex)}
+                  onClick={() => solve(uniqueIndex)}
                   className={(() => {
                     if (!feedback || feedback?.answer !== uniqueIndex) return;
                     return feedback?.correct ? "correct" : "wrong";
@@ -81,3 +76,7 @@ const Clickable = styled.button`
 const Image = styled.img`
   display: block;
 `;
+
+const QuizTitle = styled.p``;
+
+const FeedbackTypography = styled.p``;

@@ -11,13 +11,15 @@ export interface Feedback {
   answer: number;
 }
 
-export const useSubmitPictureQuizMutation = () => {
-  return useMutation<Feedback, unknown, Query>(
+export const useSubmitPictureQuizMutation = (options?: {
+  onSuccess?: () => void;
+}) =>
+  useMutation<Feedback, unknown, Query>(
     ["quiz"],
     ({ quizId, answer }: Query) =>
       pictureQuizApi.postPictureQuiz(quizId, answer).then(({ correct }) => ({
         correct,
         answer,
       })),
+    options,
   );
-};
