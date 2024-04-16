@@ -27,9 +27,5 @@ export const pictureQuizApi: PictureQuizApi = {
 function fakeResponseDelay<ResponseBody>(
   responseBody: ResponseBody,
 ): Promise<ResponseBody> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(responseBody);
-    }, 200);
-  });
+  return new Promise((resolve) => resolve(responseBody));
 }
