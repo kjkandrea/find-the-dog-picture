@@ -1,33 +1,51 @@
-import { usePictureQuizQuery } from "~/hooks";
+import { usePictureQuizQuery, useSubmitPictureQuizMutation } from "~/hooks";
 import { palette } from "~/const";
 import styled from "@emotion/styled";
 
 export const PictureQuiz = () => {
   const { data } = usePictureQuizQuery(2);
+  const { data: feedback, mutate } = useSubmitPictureQuizMutation();
 
   if (!data) return null;
 
-  const handleClick = (index: number) => {
-    console.log(index);
+  const handleClickAnswer = (index: number) => {
+    mutate({
+      quizId: data.id,
+      answer: index,
+    });
   };
 
   return (
-    <Grid>
-      {data.grid.map((row, i) => (
-        <Row key={i}>
-          {row.map((imageURL, j) => (
-            <Clickable
-              key={imageURL}
-              onClick={() => handleClick(i * row.length + j)}
-            >
-              <Image src={imageURL} alt="unknown image" />
-            </Clickable>
-          ))}
-        </Row>
-      ))}
-    </Grid>
+    <Root>
+      {feedback?.correct && "정답입니다!"}
+      <Grid>
+        {data.grid.map((row, i) => (
+          <Row key={i}>
+            {row.map((imageURL, j) => {
+              const uniqueIndex = i * row.length + j;
+
+              return (
+                <Clickable
+                  key={uniqueIndex}
+                  onClick={() => handleClickAnswer(uniqueIndex)}
+                  className={
+                    feedback?.correct &&
+                    feedback?.answer === uniqueIndex &&
+                    "correct"
+                  }
+                >
+                  <Image src={imageURL} alt="unknown image" />
+                </Clickable>
+              );
+            })}
+          </Row>
+        ))}
+      </Grid>
+    </Root>
   );
 };
+
+const Root = styled.div``;
 
 const Grid = styled.div`
   display: flex;
@@ -42,9 +60,13 @@ const Row = styled.div`
 
 const Clickable = styled.button`
   background: red;
-  .correct {
+  &.correct {
     z-index: 1;
-    border: 2px solid ${palette.positive.primary};
+    background-color: ${palette.positive.primary};
+
+    img {
+      opacity: 0.8;
+    }
   }
 `;
 
