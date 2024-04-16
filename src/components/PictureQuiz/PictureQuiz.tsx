@@ -1,4 +1,5 @@
 import { usePictureQuizQuery } from "~/hooks";
+import { palette } from "~/const";
 import styled from "@emotion/styled";
 
 export const PictureQuiz = () => {
@@ -6,12 +7,19 @@ export const PictureQuiz = () => {
 
   if (!data) return null;
 
+  const handleClick = (index: number) => {
+    console.log(index);
+  };
+
   return (
     <Grid>
       {data.grid.map((row, i) => (
         <Row key={i}>
-          {row.map((imageURL) => (
-            <Clickable key={imageURL}>
+          {row.map((imageURL, j) => (
+            <Clickable
+              key={imageURL}
+              onClick={() => handleClick(i * row.length + j)}
+            >
               <Image src={imageURL} alt="unknown image" />
             </Clickable>
           ))}
@@ -33,9 +41,10 @@ const Row = styled.div`
 `;
 
 const Clickable = styled.button`
-  &:hover {
+  background: red;
+  .correct {
     z-index: 1;
-    outline: 2px solid red;
+    border: 2px solid ${palette.positive.primary};
   }
 `;
 
