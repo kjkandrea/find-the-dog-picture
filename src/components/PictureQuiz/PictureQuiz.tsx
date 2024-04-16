@@ -6,6 +6,8 @@ export const PictureQuiz = () => {
   const { data } = usePictureQuizQuery(2);
   const { data: feedback, mutate } = useSubmitPictureQuizMutation();
 
+  console.log(feedback);
+
   if (!data) return null;
 
   const handleClickAnswer = (index: number) => {
@@ -17,7 +19,7 @@ export const PictureQuiz = () => {
 
   return (
     <Root>
-      {feedback?.correct && "정답입니다!"}
+      {feedback?.correct ? "정답입니다!" : "오답입니다."}
       <Grid>
         {data.grid.map((row, i) => (
           <Row key={i}>
@@ -28,11 +30,10 @@ export const PictureQuiz = () => {
                 <Clickable
                   key={uniqueIndex}
                   onClick={() => handleClickAnswer(uniqueIndex)}
-                  className={
-                    feedback?.correct &&
-                    feedback?.answer === uniqueIndex &&
-                    "correct"
-                  }
+                  className={(() => {
+                    if (!feedback || feedback?.answer !== uniqueIndex) return;
+                    return feedback?.correct ? "correct" : "wrong";
+                  })()}
                 >
                   <Image src={imageURL} alt="unknown image" />
                 </Clickable>
@@ -59,10 +60,17 @@ const Row = styled.div`
 `;
 
 const Clickable = styled.button`
-  background: red;
   &.correct {
-    z-index: 1;
     background-color: ${palette.positive.primary};
+  }
+
+  &.wrong {
+    background-color: ${palette.negative.primary};
+  }
+
+  &.correct,
+  &.wrong {
+    z-index: 1;
 
     img {
       opacity: 0.8;
