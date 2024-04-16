@@ -42,6 +42,7 @@ describe("PictureQuiz", () => {
   it(`퀴즈는 2 * 2 그리드로 시작한다.
     정답을 2번 맞출 시마다 그리드의 크기가 1씩 증가한다. 
     그리드의 크기는 5 * 5 까지이다.
+    모든 크기에서 정답을 도출하면 종료된다.
   `, () => {
     cy.clock();
     cy.mount(<PictureQuiz onComplete={cy.stub().as("complete")} />);
@@ -62,7 +63,7 @@ describe("PictureQuiz", () => {
     cy.get("@complete").should("have.been.called");
   });
 
-  it("퀴즈를 10번 풀면 게임이 종료된다.", () => {
+  it("퀴즈를 10번 풀면 정답 여부와 무관하게 게임이 종료된다.", () => {
     cy.clock();
     cy.mount(<PictureQuiz onComplete={cy.stub().as("complete")} />);
 
