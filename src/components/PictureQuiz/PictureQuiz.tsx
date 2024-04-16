@@ -10,6 +10,7 @@ export const PictureQuiz = () => {
   return (
     <Root>
       <QuizTitle>퀴즈 {step}</QuizTitle>
+      <Description>강아지를 찾아주세요.</Description>
       {feedback && (
         <FeedbackTypography>
           {feedback?.correct ? "정답입니다!" : "오답입니다."}
@@ -77,6 +78,8 @@ const Image = styled.img`
   display: block;
 `;
 
-const QuizTitle = styled.p``;
+const QuizTitle = styled.h2``;
+
+const Description = styled.p``;
 
 const FeedbackTypography = styled.p``;
