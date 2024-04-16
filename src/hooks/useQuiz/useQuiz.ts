@@ -10,7 +10,7 @@ export interface UseQuizParameter {
   onComplete?: () => void;
 }
 
-type UseQuiz = ({ onComplete }: UseQuizParameter) => {
+type UseQuiz = (parameter: UseQuizParameter) => {
   solve(pictureIndex: number): void;
   step: number;
   quiz?: Quiz;
