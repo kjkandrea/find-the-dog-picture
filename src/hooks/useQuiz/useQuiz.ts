@@ -20,9 +20,11 @@ type UseQuiz = ({ onComplete }: UseQuizParameter) => {
 const businessLogic = {
   squareMatrixOrder: [2, 2, 3, 3, 4, 4, 5, 5],
   feedbackMilliSeconds: 2000,
+  maxTryCount: 10,
 } as const;
 
 export const useQuiz: UseQuiz = ({ onComplete }) => {
+  const currentTryCount = useRef(0);
   const currentSquareMatrixOrder = useRef(0);
   const [squareMatrixWidth, setSquareMatrixWidth] = useState(
     businessLogic.squareMatrixOrder.at(currentSquareMatrixOrder.current)!,
@@ -36,6 +38,8 @@ export const useQuiz: UseQuiz = ({ onComplete }) => {
     reset,
   } = useSubmitPictureQuizMutation({
     onSuccess(feedback) {
+      currentTryCount.current += 1;
+
       if (feedback.correct) {
         currentSquareMatrixOrder.current += 1;
       }
@@ -43,7 +47,10 @@ export const useQuiz: UseQuiz = ({ onComplete }) => {
         currentSquareMatrixOrder.current,
       );
 
-      if (!nextSquareMatrix) {
+      if (
+        !nextSquareMatrix ||
+        currentTryCount.current >= businessLogic.maxTryCount
+      ) {
         onComplete?.();
         return;
       }
