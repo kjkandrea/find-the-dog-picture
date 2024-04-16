@@ -1,6 +1,12 @@
 import { PictureQuiz } from ".";
 
 describe("PictureQuiz", () => {
+  it("'강아지를 찾아주세요.' 가이드 텍스트가 제공된다.", () => {
+    cy.mount(<PictureQuiz />);
+
+    cy.contains("강아지를 찾아주세요.");
+  });
+
   it("강아지 사진을 동작 시 정답", () => {
     cy.mount(<PictureQuiz />);
 
@@ -41,7 +47,8 @@ describe("PictureQuiz", () => {
     cy.mount(<PictureQuiz />);
 
     Cypress._.times(8, (i) => {
-      cy.log(`${i + 1} 번째 문제`);
+      const step = i + 1;
+      cy.log(`${step} 번째 문제`);
 
       pictureGrid()
         .get("img")
