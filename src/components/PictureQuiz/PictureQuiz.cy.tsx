@@ -39,7 +39,7 @@ describe("PictureQuiz", () => {
     cy.contains("퀴즈 2");
   });
 
-  it.only(`퀴즈는 2 * 2 그리드로 시작한다.
+  it(`퀴즈는 2 * 2 그리드로 시작한다.
     정답을 2번 맞출 시마다 그리드의 크기가 1씩 증가한다. 
     그리드의 크기는 5 * 5 까지이다.
   `, () => {
@@ -55,6 +55,19 @@ describe("PictureQuiz", () => {
         .should("have.length", Math.floor(i / 2 + 2) ** 2);
 
       pictureGrid().get("img[src*='dog']").parent().click();
+      cy.tick(2000);
+      cy.wait(100);
+    });
+
+    cy.get("@complete").should("have.been.called");
+  });
+
+  it("퀴즈를 10번 풀면 게임이 종료된다.", () => {
+    cy.clock();
+    cy.mount(<PictureQuiz onComplete={cy.stub().as("complete")} />);
+
+    Cypress._.times(10, () => {
+      pictureGrid().get("img[src*='cat']").first().parent().click();
       cy.tick(2000);
       cy.wait(100);
     });
