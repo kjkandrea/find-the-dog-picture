@@ -12,7 +12,7 @@ export interface Feedback {
 }
 
 export const useSubmitPictureQuizMutation = (options?: {
-  onSuccess?: () => void;
+  onSuccess?: (feedback: Feedback) => void;
 }) =>
   useMutation<Feedback, unknown, Query>(
     ["quiz"],

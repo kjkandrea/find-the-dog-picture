@@ -4,7 +4,7 @@ import {
   Quiz,
   Feedback,
 } from "./partials";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 type UseQuiz = () => {
   solve(pictureIndex: number): void;
@@ -14,12 +14,15 @@ type UseQuiz = () => {
 };
 
 const businessLogic = {
-  squareMatrixOrder: [2],
+  squareMatrixOrder: [2, 2, 3, 3, 4, 4, 5, 5],
   feedbackMilliSeconds: 2000,
 } as const;
 
 export const useQuiz: UseQuiz = () => {
-  const [squareMatrixWidth] = useState(businessLogic.squareMatrixOrder.at(0)!);
+  const currentSquareMatrixOrder = useRef(0);
+  const [squareMatrixWidth, setSquareMatrixWidth] = useState(
+    businessLogic.squareMatrixOrder.at(currentSquareMatrixOrder.current)!,
+  );
   const [step, setStep] = useState(1);
 
   const { data: quiz, refetch } = usePictureQuizQuery(squareMatrixWidth);
@@ -28,7 +31,21 @@ export const useQuiz: UseQuiz = () => {
     mutate,
     reset,
   } = useSubmitPictureQuizMutation({
-    onSuccess() {
+    onSuccess(feedback) {
+      if (feedback.correct) {
+        currentSquareMatrixOrder.current += 1;
+      }
+      const nextSquareMatrix = businessLogic.squareMatrixOrder.at(
+        currentSquareMatrixOrder.current,
+      );
+
+      if (!nextSquareMatrix) {
+        // TODO: done 처리
+        return;
+      }
+
+      setSquareMatrixWidth(nextSquareMatrix);
+
       setTimeout(() => {
         refetch().then(() => {
           reset();
