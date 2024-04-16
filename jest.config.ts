@@ -3,7 +3,12 @@ export default {
   collectCoverage: true,
   coverageReporters: ["text", "text-summary"],
   // no react function or class, react hooks
-  collectCoverageFrom: ["src/**/*.ts", "!src/**/index.ts", "!src/**/*.d.ts"],
+  collectCoverageFrom: [
+    "src/**/*.ts",
+    "!src/**/index.ts",
+    "!src/**/*.d.ts",
+    "!src/const/**.ts",
+  ],
   testEnvironment: "jsdom",
   transform: {
     "^.+\\.js$": "babel-jest",
