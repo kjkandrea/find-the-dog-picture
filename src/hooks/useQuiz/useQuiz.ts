@@ -22,7 +22,7 @@ const businessLogic = {
   feedbackMilliSeconds: 2000,
 } as const;
 
-export const useQuiz: UseQuiz = () => {
+export const useQuiz: UseQuiz = ({ onComplete }) => {
   const currentSquareMatrixOrder = useRef(0);
   const [squareMatrixWidth, setSquareMatrixWidth] = useState(
     businessLogic.squareMatrixOrder.at(currentSquareMatrixOrder.current)!,
@@ -44,7 +44,7 @@ export const useQuiz: UseQuiz = () => {
       );
 
       if (!nextSquareMatrix) {
-        // TODO: done 처리
+        onComplete?.();
         return;
       }
 
