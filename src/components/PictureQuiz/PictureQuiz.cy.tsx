@@ -41,10 +41,10 @@ describe("PictureQuiz", () => {
 
   it.only(`퀴즈는 2 * 2 그리드로 시작한다.
     정답을 2번 맞출 시마다 그리드의 크기가 1씩 증가한다. 
-    그리드의 크기는 5 * 5 까지이다. 
+    그리드의 크기는 5 * 5 까지이다.
   `, () => {
     cy.clock();
-    cy.mount(<PictureQuiz />);
+    cy.mount(<PictureQuiz onComplete={cy.stub().as("complete")} />);
 
     Cypress._.times(8, (i) => {
       const step = i + 1;
@@ -58,6 +58,8 @@ describe("PictureQuiz", () => {
       cy.tick(2000);
       cy.wait(100);
     });
+
+    cy.get("@complete").should("have.been.called");
   });
 
   function pictureGrid() {

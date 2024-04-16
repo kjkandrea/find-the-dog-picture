@@ -1,9 +1,9 @@
-import { useQuiz } from "~/hooks";
+import { useQuiz, UseQuizParameter } from "~/hooks";
 import { palette } from "~/const";
 import styled from "@emotion/styled";
 
-export const PictureQuiz = () => {
-  const { quiz, solve, feedback, step } = useQuiz();
+export const PictureQuiz = (useQuizParameter: UseQuizParameter) => {
+  const { quiz, solve, feedback, step } = useQuiz(useQuizParameter);
 
   if (!quiz) return null;
 

@@ -6,7 +6,11 @@ import {
 } from "./partials";
 import { useState, useRef } from "react";
 
-type UseQuiz = () => {
+export interface UseQuizParameter {
+  onComplete?: () => void;
+}
+
+type UseQuiz = ({ onComplete }: UseQuizParameter) => {
   solve(pictureIndex: number): void;
   step: number;
   quiz?: Quiz;
