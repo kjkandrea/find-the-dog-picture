@@ -1,4 +1,5 @@
 import { pickRandomIndex } from "./pickRandomIndex";
+import { describe, it, expect } from "@jest/globals";
 
 describe("pickRandomIndex", () => {
   it("제외 인덱스 세트를 제외한 무작위의 인덱스 리턴한다.", () => {
