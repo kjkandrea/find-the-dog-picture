@@ -39,10 +39,8 @@ export const useQuiz: UseQuiz = ({ onComplete }) => {
   } = useSubmitPictureQuizMutation({
     onSuccess(feedback) {
       currentTryCount.current += 1;
+      if (feedback.correct) currentSquareMatrixOrder.current += 1;
 
-      if (feedback.correct) {
-        currentSquareMatrixOrder.current += 1;
-      }
       const nextSquareMatrix = businessLogic.squareMatrixOrder.at(
         currentSquareMatrixOrder.current,
       );
