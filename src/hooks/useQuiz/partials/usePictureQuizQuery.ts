@@ -7,9 +7,9 @@ export interface Quiz {
   id: GetPictureQuizResponse["id"];
 }
 
-export const usePictureQuizQuery = (squareMatrixWidth: number) => {
-  const seed = Date.now();
+const seed = 100000;
 
+export const usePictureQuizQuery = (squareMatrixWidth: number) => {
   return useQuery<Quiz>(["quiz"], () =>
     pictureQuizApi
       .getPictureQuiz(squareMatrixWidth ** 2, seed)
