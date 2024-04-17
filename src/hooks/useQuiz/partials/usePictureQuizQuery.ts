@@ -10,9 +10,9 @@ export interface Quiz {
 export const usePictureQuizQuery = (squareMatrixWidth: number) => {
   const seed = Date.now();
 
-  return useQuery<Quiz>(["quiz", squareMatrixWidth], ({ queryKey }) =>
+  return useQuery<Quiz>(["quiz"], () =>
     pictureQuizApi
-      .getPictureQuiz(queryKey.at(-1)! ** 2, seed)
+      .getPictureQuiz(squareMatrixWidth ** 2, seed)
       .then(({ quiz }) => ({
         grid: chunk(quiz.pictures, squareMatrixWidth),
         id: quiz.id,
