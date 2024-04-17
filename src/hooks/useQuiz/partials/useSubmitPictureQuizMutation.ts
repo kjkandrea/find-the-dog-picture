@@ -8,6 +8,7 @@ interface Query {
 
 export interface Feedback {
   correct: boolean;
+  answer: number;
 }
 
 export const useSubmitPictureQuizMutation = (options?: {
@@ -16,6 +17,9 @@ export const useSubmitPictureQuizMutation = (options?: {
   useMutation<Feedback, unknown, Query>(
     ["quiz"],
     ({ quizId, answer }: Query) =>
-      pictureQuizApi.postPictureQuiz(quizId, answer),
+      pictureQuizApi.postPictureQuiz(quizId, answer).then(({ correct }) => ({
+        correct,
+        answer,
+      })),
     options,
   );

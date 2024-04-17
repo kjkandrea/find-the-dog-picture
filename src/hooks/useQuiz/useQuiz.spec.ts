@@ -16,7 +16,7 @@ jest.mock("./partials", () => ({
     return {
       data: { correct: true },
       mutate: () => {
-        options.onSuccess({ correct: true });
+        options.onSuccess({ correct: true, answer: 0 });
       },
       reset: jest.fn(),
     };
@@ -78,7 +78,7 @@ describe("useQuiz", () => {
         return {
           data: { correct: false },
           mutate: () => {
-            options.onSuccess({ correct: false });
+            options.onSuccess({ correct: false, answer: 0 });
           },
           reset: jest.fn(),
         };

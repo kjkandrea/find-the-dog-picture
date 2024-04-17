@@ -5,9 +5,11 @@ import {
   Feedback,
 } from "./partials";
 import { useState, useRef } from "react";
+import { QuizSolveLog } from "~/hooks";
 
 export interface UseQuizParameter {
   onComplete?: () => void;
+  onSolved?: (quizSolveLog: QuizSolveLog) => void;
 }
 
 type UseQuiz = (parameter?: UseQuizParameter) => {
@@ -23,7 +25,7 @@ const businessLogic = {
   maxTryCount: 10,
 } as const;
 
-export const useQuiz: UseQuiz = ({ onComplete } = {}) => {
+export const useQuiz: UseQuiz = ({ onComplete, onSolved } = {}) => {
   const currentTryCount = useRef(0);
   const currentSquareMatrixOrder = useRef(0);
   const [squareMatrixWidth, setSquareMatrixWidth] = useState(
@@ -38,6 +40,12 @@ export const useQuiz: UseQuiz = ({ onComplete } = {}) => {
     reset,
   } = useSubmitPictureQuizMutation({
     onSuccess(feedback) {
+      onSolved?.({
+        quizId: quiz!.id,
+        squareMatrix: currentSquareMatrixOrder.current,
+        ...feedback,
+      });
+
       currentTryCount.current += 1;
       if (feedback.correct) currentSquareMatrixOrder.current += 1;
 
