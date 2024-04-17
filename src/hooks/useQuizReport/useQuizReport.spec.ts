@@ -17,6 +17,7 @@ describe("useQuizReport", () => {
       squareMatrix: 2,
       correct: true,
       answer: 1,
+      timestamp: new Date().toISOString(),
     };
 
     act(() => result.current.add(quizSolveLog));

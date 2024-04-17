@@ -43,6 +43,7 @@ export const useQuiz: UseQuiz = ({ onComplete, onSolved } = {}) => {
       onSolved?.({
         quizId: quiz!.id,
         squareMatrix: squareMatrixWidth,
+        timestamp: new Date().toISOString(),
         ...feedback,
       });
 

@@ -1,12 +1,14 @@
 import { Quiz } from "~/api";
 import { useRef } from "react";
 import { atom, useRecoilState } from "recoil";
+import { Timestamp } from "~/types";
 
 export interface QuizSolveLog {
   quizId: Quiz["id"];
   squareMatrix: number;
   answer: number;
   correct: boolean;
+  timestamp: Timestamp;
 }
 
 export interface QuizReport {
