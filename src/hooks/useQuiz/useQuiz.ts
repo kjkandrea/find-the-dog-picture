@@ -66,7 +66,7 @@ export const useQuiz: UseQuiz = ({ onComplete }) => {
     },
   });
 
-  const solve: UseQuiz["solve"] = (pictureIndex) => {
+  const solve = (pictureIndex: number) => {
     if (!quiz) {
       throw new Error("client error: quiz does not exist");
     }
