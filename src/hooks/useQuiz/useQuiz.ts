@@ -10,7 +10,7 @@ export interface UseQuizParameter {
   onComplete?: () => void;
 }
 
-type UseQuiz = (parameter: UseQuizParameter) => {
+type UseQuiz = (parameter?: UseQuizParameter) => {
   solve(pictureIndex: number): void;
   step: number;
   quiz?: Quiz;
@@ -23,7 +23,7 @@ const businessLogic = {
   maxTryCount: 10,
 } as const;
 
-export const useQuiz: UseQuiz = ({ onComplete }) => {
+export const useQuiz: UseQuiz = ({ onComplete } = {}) => {
   const currentTryCount = useRef(0);
   const currentSquareMatrixOrder = useRef(0);
   const [squareMatrixWidth, setSquareMatrixWidth] = useState(
