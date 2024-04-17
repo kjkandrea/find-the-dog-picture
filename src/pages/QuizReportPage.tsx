@@ -10,9 +10,7 @@ export const QuizReportPage = () => {
   useEffect(
     function exceptionGuard() {
       if (quizReport) return;
-
-      alert("잘못된 접근입니다.");
-      navigate("/");
+      navigate("/not-found");
     },
     [navigate, quizReport],
   );
