@@ -1,10 +1,12 @@
 import { Quiz } from "~/api";
+import { useRef } from "react";
+import { atom, useRecoilState } from "recoil";
 
 export interface QuizSolveLog {
   quizId: Quiz["id"];
   squareMatrix: number;
   answer: number;
-  correct: number;
+  correct: boolean;
 }
 
 export interface QuizReport {
@@ -12,15 +14,39 @@ export interface QuizReport {
 }
 
 type UseQuizReport = () => {
+  quizReport?: QuizReport;
   add(quizSolveLog: QuizSolveLog): void;
   submit(): void;
-  delete(): void;
+  reset(): void;
 };
 
+const quizReportState = atom<QuizReport | undefined>({
+  key: "textState",
+  default: undefined,
+});
+
 export const useQuizReport: UseQuizReport = () => {
+  const [globalQuizReport, setGlobalQuizReport] =
+    useRecoilState(quizReportState);
+  const quizSolveLogs = useRef<QuizSolveLog[]>([]);
+
+  const add = (quizSolveLog: QuizSolveLog) =>
+    quizSolveLogs.current.push(quizSolveLog);
+
+  const submit = () =>
+    setGlobalQuizReport({
+      quizSolveLogs: quizSolveLogs.current,
+    });
+
+  const reset = () => {
+    quizSolveLogs.current = [];
+    setGlobalQuizReport(undefined);
+  };
+
   return {
-    add: () => {},
-    submit: () => {},
-    delete: () => {},
+    quizReport: globalQuizReport,
+    add,
+    submit,
+    reset,
   };
 };
