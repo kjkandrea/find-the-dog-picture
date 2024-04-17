@@ -1,7 +1,7 @@
 import { useQuiz } from ".";
 import { Feedback } from "./partials";
 import { describe, it, expect, jest } from "@jest/globals";
-import { usePictureQuizQuery } from "./partials";
+import { usePictureQuizQuery, useSubmitPictureQuizMutation } from "./partials";
 import { renderHook, act, waitFor } from "@testing-library/react";
 
 jest.useFakeTimers();
@@ -53,5 +53,49 @@ describe("useQuiz", () => {
     });
 
     await waitFor(() => expect(result.current.step).toBe(3));
+  });
+
+  it("정답을 8번 맞추면 퀴즈가 종료된다.", async () => {
+    const onComplete = jest.fn();
+
+    const { result } = renderHook(() => useQuiz({ onComplete }));
+
+    act(() => {
+      Array.from({ length: 8 }, () => {
+        result.current.solve(0);
+        jest.runAllTimers();
+      });
+    });
+
+    await waitFor(() => expect(onComplete).toHaveBeenCalledTimes(1));
+  });
+
+  it("정답과 관계없이 10번 시도하면 퀴즈가 종료된다.", async () => {
+    (useSubmitPictureQuizMutation as jest.Mock).mockImplementation(
+      (unknown) => {
+        const options = unknown as { onSuccess: (feedback: Feedback) => void };
+
+        return {
+          data: { correct: false },
+          mutate: () => {
+            options.onSuccess({ correct: false });
+          },
+          reset: jest.fn(),
+        };
+      },
+    );
+
+    const onComplete = jest.fn();
+
+    const { result } = renderHook(() => useQuiz({ onComplete }));
+
+    act(() => {
+      Array.from({ length: 10 }, () => {
+        result.current.solve(0);
+        jest.runAllTimers();
+      });
+    });
+
+    await waitFor(() => expect(onComplete).toHaveBeenCalledTimes(1));
   });
 });
