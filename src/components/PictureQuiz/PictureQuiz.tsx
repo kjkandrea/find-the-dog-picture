@@ -1,16 +1,10 @@
-import { useQuiz, useQuizReport } from "~/hooks";
+import { useQuiz, UseQuizParameter } from "~/hooks";
 import { palette } from "~/const";
 import styled from "@emotion/styled";
 
-interface PictureQuizProps {
-  onComplete?: () => void;
-}
-
-export const PictureQuiz = ({ onComplete }: PictureQuizProps) => {
-  const { submit, add: onSolved } = useQuizReport();
+export const PictureQuiz = ({ onComplete, onSolved }: UseQuizParameter) => {
   const { quiz, solve, feedback, step } = useQuiz({
     onComplete: () => {
-      submit();
       onComplete?.();
     },
     onSolved,

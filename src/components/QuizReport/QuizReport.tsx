@@ -1,3 +1,9 @@
+import { QuizReport as IQuizReport } from "~/hooks";
+
+interface QuizReportProps {
+  quizReport: IQuizReport;
+}
+
 /**
  * @spec
  *
@@ -6,4 +12,6 @@
  * * 총 정답 수, 오답 수, 정답률을 표기합니다.
  * * 시작 시간, 종료 시간, 총 게임 시간 을 표기합니다.
  */
-export const QuizReport = () => <>QuizReport</>;
+export const QuizReport = ({ quizReport }: QuizReportProps) => (
+  <>{JSON.stringify(quizReport)}</>
+);
