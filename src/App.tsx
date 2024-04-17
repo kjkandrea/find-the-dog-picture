@@ -1,6 +1,8 @@
 import "./App.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RecoilRoot } from "recoil";
+import { RouterProvider } from "react-router-dom";
+import { router } from "~/router";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,7 +16,9 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <RecoilRoot>
-      <QueryClientProvider client={queryClient}>App</QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </RecoilRoot>
   );
 }
