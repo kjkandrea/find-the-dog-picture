@@ -42,7 +42,7 @@ export const useQuiz: UseQuiz = ({ onComplete, onSolved } = {}) => {
     onSuccess(feedback) {
       onSolved?.({
         quizId: quiz!.id,
-        squareMatrix: currentSquareMatrixOrder.current,
+        squareMatrix: squareMatrixWidth,
         ...feedback,
       });
 
