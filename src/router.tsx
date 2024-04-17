@@ -1,8 +1,27 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router-dom";
+import { DefaultLayout } from "~/layouts";
+import { NotFoundPage, PictureQuizPage, QuizReportPage } from "~/pages";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <div>Hello world!</div>,
+    element: (
+      <DefaultLayout>
+        <Outlet />
+      </DefaultLayout>
+    ),
+    children: [
+      {
+        path: "/",
+        element: <PictureQuizPage />,
+      },
+      {
+        path: "/result",
+        element: <QuizReportPage />,
+      },
+    ],
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
   },
 ]);
